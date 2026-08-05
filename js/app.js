@@ -228,6 +228,14 @@ async function initEditorsGrid() {
 
   grid.innerHTML = `<p style="color:var(--ink-faint);grid-column:1/-1;text-align:center;padding:40px 0;">Loading editors…</p>`;
   allEditorsCache = await EditorsAPI.all();
+
+  // Founder always shows first, everyone else keeps their existing order
+  allEditorsCache.sort((a, b) => {
+    const aFounder = a.role === '201Founder' ? 0 : 1;
+    const bFounder = b.role === '201Founder' ? 0 : 1;
+    return aFounder - bFounder;
+  });
+
   const counts = await Promise.all(allEditorsCache.map(e => PortfolioAPI.byEditor(e.id)));
   const countMap = Object.fromEntries(allEditorsCache.map((e, i) => [e.id, counts[i].length]));
 
