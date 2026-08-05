@@ -30,9 +30,14 @@
       <input type="text" id="member-username" placeholder="Your username" autocomplete="username" required />
     </label>
     <label class="field">
-      <span>Password</span>
-      <input type="password" id="member-password" placeholder="Enter your password" autocomplete="current-password" required />
-    </label>
+  <span>Password</span>
+  <div class="password-field-wrap">
+    <input type="password" id="member-password" placeholder="Enter your password" autocomplete="current-password" required />
+    <button type="button" class="password-toggle-btn" data-toggle-password="member-password" aria-label="Show password">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+    </button>
+  </div>
+</label>
     <div id="member-login-error" class="login-error" hidden>Incorrect username or password.</div>
 
     <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px" id="member-login-submit">Sign In</button>
