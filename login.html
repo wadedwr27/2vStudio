@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin Login</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/animations.css" />
+<link rel="stylesheet" href="css/admin.css" />
+<link rel="shortcut icon" href="assets/2vstudio.png" type="image/x-icon">
+</head>
+<body class="login-body">
+
+<div class="hero-blob blob-1" style="top:10%;left:8%"></div>
+<div class="hero-blob blob-2" style="bottom:8%;right:10%"></div>
+
+<a href="index.html" class="back-to-site-btn">
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  Back to site
+</a>
+
+<div class="login-wrap">
+  <form class="login-card glass" id="login-form" novalidate>
+    <img src="assets/2v%20logo.png" alt="2vStudio" class="login-logo-img" />
+    <h1 style="text-align:center">Admin Access</h1>
+    <p class="login-hint" style="text-align:center">Sign in to manage the 2vStudio dashboard.</p>
+
+    <label class="field">
+      <span>Password</span>
+      <input type="password" id="login-password" placeholder="Enter admin password" autocomplete="current-password" required />
+    </label>
+    <div id="login-error" class="login-error" hidden>Incorrect password. Try again.</div>
+
+    <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px">Sign In</button>
+    <a href="member-login.html" class="btn btn-ghost" style="width:100%;margin-top:10px">Member Login Instead</a>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/modal.js"></script>
+<script>
+  document.getElementById('login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const pw = document.getElementById('login-password').value;
+  const errorBox = document.getElementById('login-error');
+  if (await AdminSession.login(pw)) {
+      window.location.href = 'admin.html';
+    } else {
+      errorBox.hidden = false;
+      document.getElementById('login-password').focus();
+    }
+  });
+</script>
+</body>
+</html>

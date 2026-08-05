@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Member Login</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/animations.css" />
+<link rel="stylesheet" href="css/admin.css" />
+<link rel="shortcut icon" href="assets/2vstudio.png" type="image/x-icon">
+</head>
+<body class="login-body">
+
+<div class="hero-blob blob-1" style="top:10%;left:8%"></div>
+<div class="hero-blob blob-2" style="bottom:8%;right:10%"></div>
+
+<a href="index.html" class="back-to-site-btn">
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  Back to site
+</a>
+
+<div class="login-wrap">
+  <form class="login-card glass" id="member-login-form" novalidate>
+    <img src="assets/2v%20logo.png" alt="2vStudio" class="login-logo-img" />
+    <h1 style="text-align:center">Member Access</h1>
+    <p class="login-hint" style="text-align:center">Sign in to manage your own profile and portfolio.</p>
+
+    <label class="field">
+      <span>Username</span>
+      <input type="text" id="member-username" placeholder="Your username" autocomplete="username" required />
+    </label>
+    <label class="field">
+      <span>Password</span>
+      <input type="password" id="member-password" placeholder="Enter your password" autocomplete="current-password" required />
+    </label>
+    <div id="member-login-error" class="login-error" hidden>Incorrect username or password.</div>
+
+    <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px" id="member-login-submit">Sign In</button>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/modal.js"></script>
+<script>
+  document.getElementById('member-login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('member-username').value.trim();
+    const password = document.getElementById('member-password').value;
+    const errorBox = document.getElementById('member-login-error');
+    const submitBtn = document.getElementById('member-login-submit');
+
+    errorBox.hidden = true;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Signing in…';
+
+    try {
+      const editor = await MemberSession.login(username, password);
+      if (editor) {
+        window.location.href = 'member.html';
+      } else {
+        errorBox.hidden = false;
+        document.getElementById('member-password').focus();
+      }
+    } catch (err) {
+      console.error('Member login failed', err);
+      errorBox.textContent = 'Something went wrong. Please try again.';
+      errorBox.hidden = false;
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Sign In';
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Account</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/animations.css" />
+<link rel="stylesheet" href="css/admin.css" />
+<link rel="shortcut icon" href="assets/2vstudio.png" type="image/x-icon">
+
+</head>
+<body>
+
+<div class="admin-shell">
+
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="admin-logo"><img src="assets/2v%20logo.png" alt="2vStudio" class="nav-logo-img" />My Account</div>
+    <nav class="admin-nav">
+      <button data-view="profile" class="active"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/></svg> My Profile</button>
+      <button data-view="portfolio"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> My Portfolio</button>
+    </nav>
+    <div class="admin-sidebar-foot">
+      <a href="index.html" class="btn btn-ghost btn-sm" style="width:100%">View Website</a>
+      <button class="btn btn-outline btn-sm" id="member-logout-btn" style="width:100%">Log Out</button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <button class="btn btn-icon btn-ghost admin-mobile-toggle" id="admin-mobile-toggle" aria-label="Toggle menu" style="margin-bottom:16px">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+
+    <!-- PROFILE -->
+    <section class="admin-view active" id="view-profile">
+      <div class="admin-topbar">
+        <div><h1 id="member-welcome">My Profile</h1><p>Edit how you appear on the website.</p></div>
+      </div>
+      <div class="admin-panel" id="member-profile-panel"></div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section class="admin-view" id="view-portfolio">
+      <div class="admin-topbar">
+        <div><h1>My Portfolio</h1><p>Upload and manage your own projects.</p></div>
+        <button class="btn btn-primary" id="member-add-portfolio-btn">+ Upload Project</button>
+      </div>
+
+      <div class="admin-panel fade-in" id="member-portfolio-form-panel" style="display:none"></div>
+
+      <div class="admin-panel">
+        <table class="admin-table">
+          <thead><tr><th>Title</th><th>Category</th><th>Featured</th><th></th></tr></thead>
+          <tbody id="member-portfolio-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/member.js"></script>
+</body>
+</html>
