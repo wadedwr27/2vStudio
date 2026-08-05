@@ -296,3 +296,43 @@
 .admin-portfolio-title { font-size: 15px; font-weight: 600; color: var(--ink); }
 .admin-portfolio-duration { font-size: 12px; color: var(--ink-faint); }
 .admin-portfolio-star { color: var(--lime); font-size: 14px; }
+
+/* ============================================================
+   Mobile convenience pass
+   ============================================================ */
+@media (max-width: 640px) {
+  .admin-main { padding: 20px 16px 60px; }
+  .admin-topbar { margin-bottom: 22px; }
+  .admin-topbar h1 { font-size: 22px; }
+  .admin-topbar p { font-size: 13px; }
+
+  .stat-cards { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 22px; }
+  .stat-card { padding: 14px; }
+  .stat-card .num { font-size: 22px; }
+
+  .admin-panel { padding: 16px; margin-bottom: 16px; }
+
+  /* horizontally scrollable tables instead of squished, unreadable columns */
+  .admin-panel { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .admin-table { min-width: 540px; }
+  .admin-table th, .admin-table td { padding: 10px 8px; font-size: 13px; }
+
+  /* bigger tap targets */
+  .row-actions button { width: 38px; height: 38px; }
+  .admin-nav button { padding: 13px 14px; }
+
+  .avatar-upload-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+  .portfolio-folder-grid { grid-template-columns: 1fr; }
+  .admin-portfolio-grid { grid-template-columns: 1fr; }
+
+  .crop-stage { width: 220px; height: 220px; }
+  .modal-crop { width: min(300px, 92vw); }
+
+  .panel-form-actions { flex-direction: column-reverse; gap: 10px; }
+  .panel-form-actions .btn { width: 100%; }
+
+  .admin-sidebar { width: min(250px, 82vw); left: min(-260px, -82vw); }
+
+  .login-card { padding: 28px 22px; }
+}
