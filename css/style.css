@@ -404,21 +404,6 @@ body.modal-open, body.nav-locked { overflow: hidden; }
   display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
 }
 
-.hero-scroll-cue {
-  position: absolute;
-  bottom: 32px; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-  color: var(--ink-faint);
-  font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
-  z-index: 2;
-}
-.hero-scroll-cue .stick {
-  width: 1px; height: 34px;
-  background: linear-gradient(var(--ink-faint), transparent);
-  animation: scrollcue 1.8s ease-in-out infinite;
-}
-@keyframes scrollcue { 0%,100%{opacity:.2; transform: scaleY(.6); transform-origin: top;} 50%{opacity:1; transform: scaleY(1); transform-origin: top;} }
-
 /* ---------- about ---------- */
 
 .about-grid {
