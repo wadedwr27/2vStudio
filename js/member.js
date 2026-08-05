@@ -193,6 +193,7 @@ async function renderProfilePanel(editor) {
       <label class="field full"><span>Role</span>
         <select required name="role">
           <option value="" ${!editor.role ? 'selected' : ''} disabled>Select a role…</option>
+          <option value="201Founder" ${editor && editor.role === '201Founder' ? 'selected' : ''}>201Founder</option>
           <option value="201Crew" ${editor.role === '201Crew' ? 'selected' : ''}>201Crew</option>
           <option value="2vMember" ${editor.role === '2vMember' ? 'selected' : ''}>2vMember</option>
         </select>
