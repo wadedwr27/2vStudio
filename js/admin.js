@@ -589,11 +589,11 @@ async function renderPortfolioFolderDetail(folderId) {
     renderPortfolioTable();
   });
   detail.querySelectorAll('[data-preview-portfolio]').forEach(el => el.addEventListener('click', async () => {
-    const item = await PortfolioAPI.get(el.dataset.previewPortfolio);
-    if (!item) return;
-    const itemEditor = folderEditor || await EditorsAPI.get(item.editorId);
-    PreviewPanel.open(item, itemEditor, { targetId: 'admin-portfolio-preview-panel', showViewProfile: false });
-  }));
+  const item = await PortfolioAPI.get(el.dataset.previewPortfolio);
+  if (!item) return;
+  const itemEditor = folderEditor || await EditorsAPI.get(item.editorId);
+  PreviewPanel.openModal(item, itemEditor, { showViewProfile: false });
+}));
   detail.querySelectorAll('[data-delete-portfolio]').forEach(b => b.addEventListener('click', (e) => {
     e.stopPropagation();
     confirmDeletePortfolio(b.dataset.deletePortfolio);
