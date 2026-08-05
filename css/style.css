@@ -923,3 +923,26 @@ body.modal-open, body.nav-locked { overflow: hidden; }
 @media (max-width: 360px) {
   .portfolio-grid { grid-template-columns: 1fr !important; }
 }
+/* ---------- mobile: 2-column editors grid ---------- */
+@media (max-width: 640px) {
+  .editors-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  .editor-card-media { height: 110px; }
+  .editor-avatar { width: 56px; height: 56px; font-size: 18px; border-width: 2px; }
+  .status-pill { top: 8px; right: 8px; padding: 4px 8px; font-size: 9px; }
+  .editor-card-body { padding: 12px; }
+  .editor-card-body .nickname { font-size: 15px; }
+  .editor-card-body .role { font-size: 10px; }
+  .editor-card-body .bio {
+    font-size: 11px; line-height: 1.4; margin-top: 6px; min-height: auto;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .editor-card-actions { flex-direction: column; gap: 6px; margin-top: 10px; }
+  .editor-card-actions .btn { padding: 8px 10px; font-size: 11px; width: 100%; }
+}
+
+@media (max-width: 360px) {
+  .editors-grid { grid-template-columns: 1fr !important; }
+}
