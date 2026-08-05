@@ -904,3 +904,22 @@ body.modal-open, body.nav-locked { overflow: hidden; }
   .editor-card-actions { flex-direction: column; }
   .editor-card-actions .btn { width: 100%; }
 }
+
+/* ---------- mobile: 2-column portfolio + smaller cards ---------- */
+@media (max-width: 640px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  .portfolio-info { padding: 10px 10px 12px; }
+  .portfolio-info .title { font-size: 12px; }
+  .portfolio-info .meta { font-size: 10px; margin-top: 6px; }
+  .preview-btn { padding: 8px 14px; font-size: 11px; }
+
+  .section-title { font-size: clamp(22px, 6vw, 30px); }
+  .eyebrow { font-size: 10px; margin-bottom: 10px; }
+}
+
+@media (max-width: 360px) {
+  .portfolio-grid { grid-template-columns: 1fr !important; }
+}
