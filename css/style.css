@@ -951,17 +951,15 @@ body.modal-open, body.nav-locked { overflow: hidden; }
   .editors-grid { grid-template-columns: 1fr !important; }
 }
 
-.reel-controls .btn-icon {
-  background: rgba(255,255,255,0.05) !important;
-  border: 1px solid rgba(255,255,255,0.15) !important;
-}
 .reel-controls .btn-icon svg,
 .reel-controls .btn-icon svg path {
   stroke: #ffffff !important;
-  stroke-width: 1.5 !important;
+  stroke-width: 2 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
   display: block !important;
 }
-.reel-controls .btn-icon:hover {
-  background: rgba(255,255,255,0.1) !important;
-  border-color: rgba(255,255,255,0.25) !important;
+.reel-controls .btn-icon svg {
+  width: 20px !important;
+  height: 20px !important;
 }
