@@ -879,3 +879,28 @@ body.modal-open, body.nav-locked { overflow: hidden; }
   object-fit: cover;
   z-index: 1;
 }
+
+/* ============================================================
+   Mobile convenience pass
+   ============================================================ */
+@media (max-width: 640px) {
+  .hero-logo-img { height: 110px; margin-bottom: 16px; }
+  .nav-logo-img { height: 28px; }
+  .login-logo-img { height: 70px; }
+  .back-to-site-btn { top: 16px; left: 16px; padding: 8px 14px; font-size: 13px; }
+
+  .btn { padding: 13px 22px; font-size: 14px; }
+
+  .search-overlay { padding: 70px 16px 30px; }
+  #search-input { font-size: 20px; }
+  .search-input-wrap { gap: 10px; }
+
+  .reel-card { flex-basis: 70vw; }
+
+  .about-stat { padding: 20px 16px; }
+  .about-stat .num { font-size: clamp(22px, 7vw, 30px); }
+
+  .editor-card-body { padding: 18px; }
+  .editor-card-actions { flex-direction: column; }
+  .editor-card-actions .btn { width: 100%; }
+}
