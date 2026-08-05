@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   await renderFeaturedTable();
   wireEditorForm();
   wireEditorsSearch();
+  wirePortfolioSearch();
+  wireFeaturedSearch();
   wireSettings();
   wireLogout();
 });
@@ -484,6 +486,11 @@ async function renderPortfolioTable() {
   }
 }
 
+let allPortfolioFolderEditors = [];
+let allPortfolioFolderOrphaned = [];
+let portfolioFolderCounts = {};
+let portfolioSearchQuery = '';
+
 async function renderPortfolioFolderGrid() {
   const grid = document.getElementById('portfolio-folder-grid');
   const detail = document.getElementById('portfolio-folder-detail');
@@ -499,13 +506,35 @@ async function renderPortfolioFolderGrid() {
   const editorIds = new Set(editors.map(e => e.id));
   const orphaned = allItems.filter(p => !editorIds.has(p.editorId));
 
+  allPortfolioFolderEditors = editors;
+  allPortfolioFolderOrphaned = orphaned;
+
   if (!editors.length && !orphaned.length) {
     grid.innerHTML = `<div class="admin-panel" style="grid-column:1/-1"><div class="table-empty">No crews yet. Add one from the Crews tab first.</div></div>`;
     return;
   }
 
   const counts = await Promise.all(editors.map(e => PortfolioAPI.byEditor(e.id)));
-  const countMap = Object.fromEntries(editors.map((e, i) => [e.id, counts[i].length]));
+  portfolioFolderCounts = Object.fromEntries(editors.map((e, i) => [e.id, counts[i].length]));
+
+  renderPortfolioFolderGridRows();
+}
+
+function renderPortfolioFolderGridRows() {
+  const grid = document.getElementById('portfolio-folder-grid');
+  if (!grid) return;
+  const q = portfolioSearchQuery.trim().toLowerCase();
+
+  const editors = allPortfolioFolderEditors.filter(e => {
+    if (!q) return true;
+    return [e.nickname, e.role].join(' ').toLowerCase().includes(q);
+  });
+  const showOrphaned = allPortfolioFolderOrphaned.length > 0 && (!q || 'unassigned'.includes(q));
+
+  if (!editors.length && !showOrphaned) {
+    grid.innerHTML = `<div class="admin-panel" style="grid-column:1/-1"><div class="table-empty">No crews match your search.</div></div>`;
+    return;
+  }
 
   grid.innerHTML = editors.map(e => `
     <div class="portfolio-folder-card" data-open-folder="${e.id}">
@@ -517,10 +546,10 @@ async function renderPortfolioFolderGrid() {
         <div class="portfolio-folder-name">${e.nickname}</div>
         <div class="portfolio-folder-role">${e.role}</div>
         <button class="btn btn-outline btn-sm" style="width:100%;margin-top:16px">Open Folder</button>
-        <div class="portfolio-folder-count">${countMap[e.id] || 0} project${(countMap[e.id] || 0) === 1 ? '' : 's'} in portfolio</div>
+        <div class="portfolio-folder-count">${portfolioFolderCounts[e.id] || 0} project${(portfolioFolderCounts[e.id] || 0) === 1 ? '' : 's'} in portfolio</div>
       </div>
     </div>
-  `).join('') + (orphaned.length ? `
+  `).join('') + (showOrphaned ? `
     <div class="portfolio-folder-card" data-open-folder="unassigned">
       <div class="portfolio-folder-banner" style="background:linear-gradient(140deg,#2a2a2a,#0b0b0b)">
         <div class="portfolio-folder-avatar" style="background:#333">?</div>
@@ -529,7 +558,7 @@ async function renderPortfolioFolderGrid() {
         <div class="portfolio-folder-name">Unassigned</div>
         <div class="portfolio-folder-role">No matching crew</div>
         <button class="btn btn-outline btn-sm" style="width:100%;margin-top:16px">Open Folder</button>
-        <div class="portfolio-folder-count">${orphaned.length} project${orphaned.length === 1 ? '' : 's'} in portfolio</div>
+        <div class="portfolio-folder-count">${allPortfolioFolderOrphaned.length} project${allPortfolioFolderOrphaned.length === 1 ? '' : 's'} in portfolio</div>
       </div>
     </div>
   ` : '');
@@ -539,6 +568,15 @@ async function renderPortfolioFolderGrid() {
       activePortfolioFolder = el.dataset.openFolder;
       renderPortfolioTable();
     });
+  });
+}
+
+function wirePortfolioSearch() {
+  const input = document.getElementById('portfolio-search');
+  if (!input) return;
+  input.addEventListener('input', (e) => {
+    portfolioSearchQuery = e.target.value;
+    if (!activePortfolioFolder) renderPortfolioFolderGridRows();
   });
 }
 
@@ -646,30 +684,64 @@ async function confirmDeletePortfolio(id) {
 
 /* ---------- featured works table ---------- */
 
+let allFeaturedCache = [];
+let featuredEditorMap = {};
+let featuredSearchQuery = '';
+
 async function renderFeaturedTable() {
-  const tbody = document.getElementById('featured-tbody');
-  tbody.innerHTML = `<tr><td colspan="4" class="table-empty">Loading…</td></tr>`;
+  const grid = document.getElementById('featured-grid');
+  if (!grid) return;
+  grid.innerHTML = `<p style="color:var(--ink-faint);grid-column:1/-1;text-align:center;padding:40px 0">Loading…</p>`;
   const items = await PortfolioAPI.all();
   const editors = await EditorsAPI.all();
-  const editorMap = Object.fromEntries(editors.map(e => [e.id, e]));
+  featuredEditorMap = Object.fromEntries(editors.map(e => [e.id, e]));
+  allFeaturedCache = items;
+  renderFeaturedRows();
+}
 
-  tbody.innerHTML = items.length ? items.map(p => {
-    const editor = editorMap[p.editorId];
-    return `
-    <tr>
-      <td>${p.title}</td>
-      <td>${editor ? editor.nickname : '—'}</td>
-      <td>${p.category}</td>
-      <td>
-        <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-dim)">
-          <input type="checkbox" data-toggle-featured="${p.id}" ${p.featured ? 'checked' : ''} />
-          ${p.featured ? 'Featured' : 'Not featured'}
+function featuredCardHTML(item) {
+  const editor = featuredEditorMap[item.editorId];
+  const thumb = toDriveThumbnail(item.driveLink);
+  const thumbStyle = thumb
+    ? `background-image:url(${thumb});background-size:cover;background-position:center`
+    : `background:linear-gradient(140deg,#1a1a1a,#0c0c0c)`;
+  return `
+    <div class="admin-portfolio-card">
+      <div class="admin-portfolio-thumb" style="${thumbStyle}"></div>
+      <div class="admin-portfolio-info">
+        <div class="admin-portfolio-row">
+          <span class="admin-portfolio-title">${item.title}</span>
+          <span class="admin-portfolio-duration">${item.duration}</span>
+        </div>
+        <div class="admin-portfolio-row">
+          <span class="cat-tag">${item.category}${editor ? ' · ' + editor.nickname : ''}</span>
+        </div>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-dim);margin-top:12px;cursor:pointer">
+          <input type="checkbox" data-toggle-featured="${item.id}" ${item.featured ? 'checked' : ''} />
+          ${item.featured ? '★ Featured' : 'Not featured'}
         </label>
-      </td>
-    </tr>`;
-  }).join('') : `<tr><td colspan="4" class="table-empty">No portfolio projects yet.</td></tr>`;
+      </div>
+    </div>
+  `;
+}
 
-  tbody.querySelectorAll('[data-toggle-featured]').forEach(cb => {
+function renderFeaturedRows() {
+  const grid = document.getElementById('featured-grid');
+  if (!grid) return;
+  const q = featuredSearchQuery.trim().toLowerCase();
+  const filtered = allFeaturedCache.filter(p => {
+    if (!q) return true;
+    const editor = featuredEditorMap[p.editorId];
+    const haystack = [p.title, editor ? editor.nickname : '', p.category].join(' ').toLowerCase();
+    return haystack.includes(q);
+  });
+
+  grid.innerHTML = filtered.length
+    ? filtered.map(p => featuredCardHTML(p)).join('')
+    : `<p style="color:var(--ink-faint);grid-column:1/-1;text-align:center;padding:40px 0">${q ? 'No projects match your search.' : 'No portfolio projects yet.'}</p>`;
+
+  grid.querySelectorAll('[data-toggle-featured]').forEach(cb => {
+    cb.addEventListener('click', (e) => e.stopPropagation());
     cb.addEventListener('change', async () => {
       cb.disabled = true;
       const item = await PortfolioAPI.get(cb.dataset.toggleFeatured);
@@ -684,6 +756,15 @@ async function renderFeaturedTable() {
         ModalSystem.open({ title: 'Update failed', body: '<p>Something went wrong. Please try again.</p>', actions: [{ label: 'Got it', kind: 'primary' }] });
       }
     });
+  });
+}
+
+function wireFeaturedSearch() {
+  const input = document.getElementById('featured-search');
+  if (!input) return;
+  input.addEventListener('input', (e) => {
+    featuredSearchQuery = e.target.value;
+    renderFeaturedRows();
   });
 }
 
