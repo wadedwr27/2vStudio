@@ -133,7 +133,28 @@
   .admin-mobile-toggle { display: flex !important; }
   .form-grid { grid-template-columns: 1fr; }
 }
-.admin-mobile-toggle { display: none; }
+.admin-mobile-toggle {
+  display: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--line-strong);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.25s;
+}
+.admin-mobile-toggle:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: var(--line-strong);
+}
+.admin-mobile-toggle svg {
+  stroke: var(--ink);
+  width: 20px;
+  height: 20px;
+}
 
 /* ---------- inline form panel (replaces modal for add/edit) ---------- */
 
@@ -410,4 +431,3 @@
   transition: color 0.2s;
 }
 .password-toggle-btn:hover { color: var(--ink); }
-
