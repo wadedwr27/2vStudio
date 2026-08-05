@@ -108,7 +108,13 @@
 }
 .modal-overlay.is-visible .modal-card { transform: scale(1) translateY(0); opacity: 1; }
 
-.modal-card.modal-lg { width: min(760px, 100%); text-align: left; padding: 0; overflow: hidden; }
+.modal-card.modal-lg {
+  width: min(880px, 94vw);
+  text-align: left;
+  padding: 0;
+  overflow: hidden;
+  max-height: 88vh;
+}
 
 .modal-icon {
   width: 56px; height: 56px; margin: 0 auto 18px;
