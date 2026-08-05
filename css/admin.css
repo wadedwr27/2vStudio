@@ -336,3 +336,42 @@
 
   .login-card { padding: 28px 22px; }
 }
+
+/* ---------- mobile: 2-column portfolio + smaller cards ---------- */
+@media (max-width: 640px) {
+  .portfolio-folder-grid,
+  .admin-portfolio-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  /* smaller editor folder cards */
+  .portfolio-folder-banner { height: 84px; }
+  .portfolio-folder-avatar { width: 40px; height: 40px; font-size: 14px; border-width: 2px; }
+  .portfolio-folder-banner .status-pill { top: 6px; right: 6px; padding: 3px 8px; font-size: 9px; }
+  .portfolio-folder-body { padding: 10px 10px 12px; }
+  .portfolio-folder-name { font-size: 13px; }
+  .portfolio-folder-role { font-size: 10px; margin-top: 1px; }
+  .portfolio-folder-count { font-size: 10px; margin-top: 8px; }
+  .portfolio-folder-body .btn { padding: 8px 10px; font-size: 11px; margin-top: 10px !important; }
+
+  /* smaller portfolio video cards inside a folder */
+  .admin-portfolio-info { padding: 10px 12px 12px; }
+  .admin-portfolio-title { font-size: 12px; }
+  .admin-portfolio-duration { font-size: 10px; }
+  .admin-portfolio-star { font-size: 11px; }
+  .cat-tag { font-size: 10px; }
+  .admin-card-delete { width: 24px; height: 24px; top: 6px; right: 6px; opacity: 1; }
+  .admin-card-delete svg { width: 12px; height: 12px; }
+
+  /* smaller page headers */
+  .admin-topbar h1 { font-size: 20px; }
+  .admin-topbar p { font-size: 12px; }
+}
+
+@media (max-width: 360px) {
+  .portfolio-folder-grid,
+  .admin-portfolio-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
