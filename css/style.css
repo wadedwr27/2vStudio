@@ -952,15 +952,16 @@ body.modal-open, body.nav-locked { overflow: hidden; }
 }
 
 .reel-controls .btn-icon {
-  color: var(--ink);
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.15) !important;
 }
-.reel-controls .btn-icon svg {
-  display: block;
-  stroke-width: 1.5;
+.reel-controls .btn-icon svg,
+.reel-controls .btn-icon svg path {
+  stroke: #ffffff !important;
+  stroke-width: 1.5 !important;
+  display: block !important;
 }
 .reel-controls .btn-icon:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.1) !important;
+  border-color: rgba(255,255,255,0.25) !important;
 }
