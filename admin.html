@@ -80,6 +80,12 @@
           <div><h1>Portfolio</h1><p>View portfolio projects across every editor. Crews manage uploads from their own account.</p></div>
       </div>
 
+      <div class="admin-panel">
+        <div class="panel-toolbar">
+          <input type="text" id="portfolio-search" class="admin-search-input" placeholder="Search by crew name or role…" />
+        </div>
+      </div>
+
       <div id="portfolio-folder-grid" class="portfolio-folder-grid"></div>
       <div id="portfolio-folder-detail" style="display:none"></div>
     </section>
@@ -89,12 +95,14 @@
       <div class="admin-topbar">
         <div><h1>Featured Works</h1><p>Choose which projects appear in the homepage reel.</p></div>
       </div>
+
       <div class="admin-panel">
-        <table class="admin-table">
-          <thead><tr><th>Title</th><th>Editor</th><th>Category</th><th>Featured</th></tr></thead>
-          <tbody id="featured-tbody"></tbody>
-        </table>
+        <div class="panel-toolbar">
+          <input type="text" id="featured-search" class="admin-search-input" placeholder="Search by title, editor, or category…" />
+        </div>
       </div>
+
+      <div id="featured-grid" class="admin-portfolio-grid"></div>
     </section>
 
     <!-- SETTINGS -->
