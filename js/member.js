@@ -226,9 +226,23 @@ async function renderProfilePanel(editor) {
     <div style="border-top:1px solid var(--line);margin:28px 0 22px"></div>
     <h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Change Password</h3>
     <form id="member-password-form" class="form-grid">
-      <label class="field"><span>New password</span><input type="password" id="member-new-password" /></label>
-      <label class="field"><span>Confirm new password</span><input type="password" id="member-confirm-password" /></label>
-    </form>
+  <label class="field"><span>New password</span>
+    <div class="password-field-wrap">
+      <input type="password" id="member-new-password" />
+      <button type="button" class="password-toggle-btn" data-toggle-password="member-new-password" aria-label="Show password">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+  </label>
+  <label class="field"><span>Confirm new password</span>
+    <div class="password-field-wrap">
+      <input type="password" id="member-confirm-password" />
+      <button type="button" class="password-toggle-btn" data-toggle-password="member-confirm-password" aria-label="Show password">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+  </label>
+</form>
     <div class="panel-form-actions">
       <button type="button" class="btn btn-outline" id="member-password-save">Update Password</button>
     </div>
