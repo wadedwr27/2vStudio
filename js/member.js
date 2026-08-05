@@ -28,6 +28,22 @@ function initials(name) { return (name || '?').trim().split(/\s+/).map(w => w[0]
 
 async function currentEditor() { return EditorsAPI.get(MemberSession.currentEditorId()); }
 
+/* ---------- password show/hide toggle (reusable) ---------- */
+
+function wirePasswordToggles(scope) {
+  scope.querySelectorAll('[data-toggle-password]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const input = document.getElementById(btn.dataset.togglePassword);
+      if (!input) return;
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      btn.innerHTML = isHidden
+        ? `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.6 21.6 0 0 1 5.06-6.06M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.6 21.6 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/></svg>`
+        : `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>`;
+    });
+  });
+}
+
 /* ---------- sidebar / view switching ---------- */
 
 function initSidebar(editor) {
@@ -226,27 +242,30 @@ async function renderProfilePanel(editor) {
     <div style="border-top:1px solid var(--line);margin:28px 0 22px"></div>
     <h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Change Password</h3>
     <form id="member-password-form" class="form-grid">
-  <label class="field"><span>New password</span>
-    <div class="password-field-wrap">
-      <input type="password" id="member-new-password" />
-      <button type="button" class="password-toggle-btn" data-toggle-password="member-new-password" aria-label="Show password">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
-      </button>
-    </div>
-  </label>
-  <label class="field"><span>Confirm new password</span>
-    <div class="password-field-wrap">
-      <input type="password" id="member-confirm-password" />
-      <button type="button" class="password-toggle-btn" data-toggle-password="member-confirm-password" aria-label="Show password">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
-      </button>
-    </div>
-  </label>
-</form>
+      <label class="field"><span>New password</span>
+        <div class="password-field-wrap">
+          <input type="password" id="member-new-password" />
+          <button type="button" class="password-toggle-btn" data-toggle-password="member-new-password" aria-label="Show password">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </label>
+      <label class="field"><span>Confirm new password</span>
+        <div class="password-field-wrap">
+          <input type="password" id="member-confirm-password" />
+          <button type="button" class="password-toggle-btn" data-toggle-password="member-confirm-password" aria-label="Show password">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </label>
+    </form>
     <div class="panel-form-actions">
       <button type="button" class="btn btn-outline" id="member-password-save">Update Password</button>
     </div>
   `;
+
+  // wire up the eye-icon show/hide toggles for the two password fields above
+  wirePasswordToggles(panel);
 
   function refreshAvatarPreview() {
     const preview = document.getElementById('avatar-preview');
