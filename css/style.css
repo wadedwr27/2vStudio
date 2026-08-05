@@ -950,3 +950,10 @@ body.modal-open, body.nav-locked { overflow: hidden; }
 @media (max-width: 360px) {
   .editors-grid { grid-template-columns: 1fr !important; }
 }
+
+.reel-controls .btn-icon {
+  color: var(--ink);
+}
+.reel-controls .btn-icon svg {
+  display: block;
+}
