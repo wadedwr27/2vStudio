@@ -54,8 +54,7 @@ const PreviewPanel = (() => {
               <div class="meta-item"><div class="k">Date</div><div class="v">${item.date}</div></div>
             </div>
             <div class="preview-actions">
-              ${showCommission ? `<button class="btn btn-primary" id="${commissionBtnId}">Commission Editor</button>` : ''}
-              ${showViewProfile ? `<a class="btn btn-outline" href="editor.html?id=${editor.id}">View Profile</a>` : ''}
+              ${showCommission ? `<button class="btn btn-primary" id="preview-modal-commission-btn">Commission Editor</button>` : ''}
             </div>
           </div>
         </div>
@@ -76,9 +75,7 @@ const PreviewPanel = (() => {
   function openModal(item, editor, opts = {}) {
     if (!item) return;
     const embed = toDriveEmbed(item.driveLink);
-    const showViewProfile = opts.showViewProfile !== false && !!editor;
     const showCommission = opts.showCommission !== false;
-
     const body = `
       <div class="preview-modal-grid">
         <div class="preview-video-wrap">
@@ -97,9 +94,8 @@ const PreviewPanel = (() => {
             <div class="meta-item"><div class="k">Date</div><div class="v">${item.date}</div></div>
           </div>
           <div class="preview-actions">
-            ${showCommission ? `<button class="btn btn-primary" id="preview-modal-commission-btn">Commission Editor</button>` : ''}
-            ${showViewProfile ? `<a class="btn btn-outline" href="editor.html?id=${editor.id}">View Profile</a>` : ''}
-          </div>
+              ${showCommission ? `<button class="btn btn-primary" id="preview-modal-commission-btn">Commission Editor</button>` : ''}
+            </div>
         </div>
       </div>
     `;
