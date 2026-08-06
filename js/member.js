@@ -207,12 +207,8 @@ async function renderProfilePanel(editor) {
       </div>
       <label class="field full"><span>Nickname</span><input required name="nickname" value="${editor.nickname}" /></label>
       <label class="field full"><span>Role</span>
-        <select required name="role">
-          <option value="" ${!editor.role ? 'selected' : ''} disabled>Select a role…</option>
-          <option value="201Founder" ${editor && editor.role === '201Founder' ? 'selected' : ''}>201Founder</option>
-          <option value="201Crew" ${editor.role === '201Crew' ? 'selected' : ''}>201Crew</option>
-          <option value="2vMember" ${editor.role === '2vMember' ? 'selected' : ''}>2vMember</option>
-        </select>
+        <input type="text" value="${editor.role || ''}" disabled style="opacity:0.6;cursor:not-allowed" />
+        <span style="font-size:11px;color:var(--ink-faint);margin-top:4px;display:block">Only an admin can change your role.</span>
       </label>
       <label class="field full"><span>Bio</span><textarea name="bio">${editor.bio || ''}</textarea></label>
       <label class="field full"><span>Experience</span><textarea name="experience">${editor.experience || ''}</textarea></label>
