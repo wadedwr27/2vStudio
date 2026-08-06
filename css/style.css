@@ -807,7 +807,19 @@ body.modal-open, body.nav-locked { overflow: hidden; }
 
 @media (max-width: 760px) {
   .preview-modal-grid { grid-template-columns: 1fr; }
-  .preview-video-wrap { aspect-ratio: 16/9; }
+  .preview-video-wrap {
+    aspect-ratio: auto;
+    height: 60vh;
+    max-height: 500px;
+  }
+  .modal-card.modal-lg {
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-card.modal-lg .preview-modal-grid {
+    overflow-y: auto;
+  }
 }
 
 /* ---------- responsive ---------- */
