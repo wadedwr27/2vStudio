@@ -319,7 +319,7 @@ async function renderProfilePanel(editor) {
       id: editor.id,
       username: editor.username,
       nickname: fd.get('nickname').trim(),
-      role: fd.get('role').trim(),
+      role: editor.role,
       bio: fd.get('bio').trim(),
       experience: fd.get('experience').trim(),
       skills: fd.get('skills').split(',').map(s => s.trim()).filter(Boolean),
