@@ -808,20 +808,19 @@ body.modal-open, body.nav-locked { overflow: hidden; }
 @media (max-width: 760px) {
   .preview-modal-grid { grid-template-columns: 1fr; }
   .preview-video-wrap {
-    aspect-ratio: 9/16;
-    height: 62vh;
-    width: auto;
-    max-width: 100%;
-    margin: 0 auto;
-    background: #000;
+    aspect-ratio: 16/9;
   }
   .modal-card.modal-lg {
-    max-height: 92vh;
-    display: flex;
-    flex-direction: column;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: block;
   }
   .modal-card.modal-lg .preview-modal-grid {
-    overflow-y: auto;
+    overflow: visible;
+  }
+  .modal-card.modal-lg .preview-details {
+    max-height: none;
+    overflow: visible;
   }
 }
 
