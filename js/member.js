@@ -455,7 +455,7 @@ async function openPortfolioForm(editor, portfolioId) {
       </label>
       <label class="field"><span>Software</span><input name="software" value="${item ? item.software : ''}" placeholder="e.g. Premiere Pro" /></label>
       <label class="field"><span>Duration</span><input name="duration" value="${item ? item.duration : ''}" placeholder="e.g. 2:14" /></label>
-      <label class="field full"><span>Google Drive Video Link</span><input name="driveLink" value="${item ? item.driveLink : ''}" placeholder="https://drive.google.com/file/d/FILE_ID/view" /></label>
+      <label class="field full"><span>Video Link (Google Drive or YouTube)</span><input name="driveLink" value="${item ? item.driveLink : ''}" placeholder="https://drive.google.com/file/d/... or https://youtube.com/watch?v=..." /></label>
       <div class="field full" id="member-drive-link-status" style="font-size:12px;color:var(--ink-faint)"></div>
       <label class="field full"><span>Description</span><textarea name="description" placeholder="What is this project?">${item ? item.description : ''}</textarea></label>
     </form>
@@ -476,8 +476,8 @@ async function openPortfolioForm(editor, portfolioId) {
     if (!form.reportValidity()) return;
     const fd = new FormData(form);
     const driveLink = fd.get('driveLink').trim();
-    if (driveLink && !isValidDriveLink(driveLink)) {
-      document.getElementById('member-drive-link-status').textContent = 'That doesn\'t look like a valid Google Drive file link.';
+    if (driveLink && !isValidVideoLink(driveLink)) {
+      document.getElementById('member-drive-link-status').textContent = 'That doesn\'t look like a valid Google Drive or YouTube link.';
       document.getElementById('member-drive-link-status').style.color = '#ff5470';
       return;
     }
