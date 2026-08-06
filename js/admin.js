@@ -427,6 +427,17 @@ async function openEditorForm(editorId) {
       }
     }
 
+    const selectedRole = fd.get('role');
+    if (selectedRole === '201Founder') {
+      const allEditors = await EditorsAPI.all();
+      const existingFounder = allEditors.find(e => e.role === '201Founder' && e.id !== (editor ? editor.id : null));
+      if (existingFounder) {
+        statusMsg.textContent = `${existingFounder.nickname} is already set as 201Founder. Only one crew can hold this role.`;
+        statusMsg.style.color = '#ff5470';
+        return;
+      }
+    }
+
     if (username && !newPassword && !editor) {
       statusMsg.textContent = 'Set a password for this new account.';
       statusMsg.style.color = '#ff5470';
