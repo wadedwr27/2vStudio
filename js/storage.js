@@ -214,30 +214,68 @@ const MemberSession = {
   logout() { sessionStorage.removeItem(DB_KEYS.MEMBER); },
 };
 
-/* ---------- Google Drive link helper ---------- */
+/* ---------- video link helpers: Google Drive OR YouTube ---------- */
 
-function toDriveDirect(url) {
+function getYouTubeId(url) {
   if (!url) return '';
-  const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
-  if (!match) return '';
-  return `https://drive.google.com/uc?export=download&id=${match[1]}`;
+  const patterns = [
+    /youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/,
+    /youtu\.be\/([a-zA-Z0-9_-]+)/,
+    /youtube\.com\/embed\/([a-zA-Z0-9_-]+)/,
+    /youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/,
+  ];
+  for (const p of patterns) {
+    const m = url.match(p);
+    if (m) return m[1];
+  }
+  return '';
 }
 
-function toDriveEmbed(url) {
+function getDriveId(url) {
   if (!url) return '';
   const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
-  if (!match) return '';
-  return `https://drive.google.com/file/d/${match[1]}/preview`;
-}
-
-function toDriveThumbnail(url) {
-  if (!url) return '';
-  const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
-  if (!match) return '';
-  return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+  return match ? match[1] : '';
 }
 
 function isValidDriveLink(url) {
-  if (!url) return false;
-  return /drive\.google\.com\/(file\/d\/[a-zA-Z0-9_-]+|open\?id=[a-zA-Z0-9_-]+)/.test(url);
+  return !!getDriveId(url) && /drive\.google\.com/.test(url || '');
 }
+
+function isValidYouTubeLink(url) {
+  return !!getYouTubeId(url);
+}
+
+function isValidVideoLink(url) {
+  return isValidDriveLink(url) || isValidYouTubeLink(url);
+}
+
+// used to build the direct-download link for the reel's autoplaying <video> tag —
+// YouTube doesn't support this, so it returns '' for YouTube links (the reel
+// falls back to the thumbnail image only, no autoplay video, for those items)
+function toDriveDirect(url) {
+  const id = getDriveId(url);
+  if (!id) return '';
+  return `https://drive.google.com/uc?export=download&id=${id}`;
+}
+
+// used for the big preview modal iframe — works for both Drive and YouTube
+function toVideoEmbed(url) {
+  const ytId = getYouTubeId(url);
+  if (ytId) return `https://www.youtube.com/embed/${ytId}`;
+  const driveId = getDriveId(url);
+  if (driveId) return `https://drive.google.com/file/d/${driveId}/preview`;
+  return '';
+}
+
+// used for card thumbnails on the homepage reel / portfolio grids
+function toVideoThumbnail(url) {
+  const ytId = getYouTubeId(url);
+  if (ytId) return `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+  const driveId = getDriveId(url);
+  if (driveId) return `https://drive.google.com/thumbnail?id=${driveId}&sz=w1000`;
+  return '';
+}
+
+// kept for backwards compatibility with any code still calling the old names
+function toDriveEmbed(url) { return toVideoEmbed(url); }
+function toDriveThumbnail(url) { return toVideoThumbnail(url); }
